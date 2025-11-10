@@ -50,5 +50,5 @@ spec:
 
   - group: apiextensions.k8s.io
     kind: CustomResourceDefinition
-    jqPathExpressions:
-    - .spec.versions?.deprecated
+    jsonPointers:
+    - /spec/versions/0/deprecated
