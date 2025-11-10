@@ -5,5 +5,5 @@ resources:
 - ../../base
 patches:
 - path: patch-operator-namespace.yaml
-- path: patch-kafka.yaml
+- path: patch-kafka-cluster.yaml
 - path: patch-kafka-nodepool.yaml
