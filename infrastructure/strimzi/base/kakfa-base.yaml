@@ -1,0 +1,10 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: kafka-deploy
+  namespace: kft # Namespace will be enforced by the overlay
+spec:
+  kafka:
+    version: 4.1.0
+    metadataVersion: 4.1-IV1
+  # The rest (listeners, config, entityOperator) will be patched

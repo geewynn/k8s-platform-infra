@@ -1,0 +1,91 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: kafka-cluster
+spec:
+  kafka:
+    version: 3.9.0
+    # KRaft mode listeners
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+        authentication:
+          type: scram-sha-512
+      - name: external
+        port: 9094
+        type: nodeport
+        tls: true
+        authentication:
+          type: scram-sha-512
+    config:
+      # HA configurations for 3 replicas
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+      default.replication.factor: 3
+      min.insync.replicas: 2
+      # Performance and reliability settings
+      num.network.threads: 3
+      num.io.threads: 8
+      socket.send.buffer.bytes: 102400
+      socket.receive.buffer.bytes: 102400
+      socket.request.max.bytes: 104857600
+      log.retention.hours: 168
+      log.segment.bytes: 1073741824
+      log.retention.check.interval.ms: 300000
+      # Rack awareness for better distribution
+      replica.selector.class: org.apache.kafka.common.replica.RackAwareReplicaSelector
+    # Rack awareness configuration
+    rack:
+      topologyKey: kubernetes.io/hostname
+    # Metrics for monitoring
+    metricsConfig:
+      type: jmxPrometheusExporter
+      valueFrom:
+        configMapKeyRef:
+          name: kafka-metrics
+          key: kafka-metrics-config.yml
+  # Entity Operator for topic and user management
+  entityOperator:
+    topicOperator:
+      watchedNamespace: kafka-prod
+      reconciliationIntervalMs: 60000
+      resources:
+        requests:
+          memory: 512Mi
+          cpu: 200m
+        limits:
+          memory: 512Mi
+          cpu: 500m
+      logging:
+        type: inline
+        loggers:
+          rootLogger.level: INFO
+    userOperator:
+      watchedNamespace: kafka-prod
+      reconciliationIntervalMs: 120000
+      resources:
+        requests:
+          memory: 512Mi
+          cpu: 200m
+        limits:
+          memory: 512Mi
+          cpu: 500m
+      logging:
+        type: inline
+        loggers:
+          rootLogger.level: INFO
+  cruiseControl:
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        cpu: "1"
+        memory: 2Gi

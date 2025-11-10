@@ -1,0 +1,66 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: kafka-pool
+  labels:
+    strimzi.io/cluster: kafka-cluster
+spec:
+  replicas: 3
+  roles:
+    - controller
+    - broker
+  storage:
+    type: jbod
+    volumes:
+      - id: 0
+        type: persistent-claim
+        size: 60Gi
+        deleteClaim: false
+        class: longhorn
+        kraftMetadata: shared
+  resources:
+    requests:
+      memory: 4Gi
+      cpu: "1"
+    limits:
+      memory: 8Gi
+      cpu: "2"
+  jvmOptions:
+    "-Xms": "2G"
+    "-Xmx": "2G"
+    # Additional JVM options for production
+    "-XX:+UseG1GC": ""
+    "-XX:MaxGCPauseMillis": "20"
+    "-XX:InitiatingHeapOccupancyPercent": "35"
+    "-XX:G1HeapRegionSize": "16M"
+  template:
+    pod:
+      metadata:
+        labels:
+          environment: prod
+      affinity: 
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: strimzi.io/cluster
+                    operator: In
+                    values:
+                      - kafka-cluster
+                  - key: strimzi.io/kind
+                    operator: In
+                    values:
+                      - Kafka
+                  - key: strimzi.io/name
+                    operator: In
+                    values:
+                      - kafka-cluster-kafka-pool
+              topologyKey: kubernetes.io/hostname
+      tolerations:
+        - key: "kafka"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+      securityContext:
+        runAsNonRoot: true
+        fsGroup: 0

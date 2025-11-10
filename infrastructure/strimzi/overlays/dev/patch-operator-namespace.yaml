@@ -1,0 +1,13 @@
+# This patch sets the operator to watch the 'kafka-dev' namespace
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strimzi-cluster-operator
+spec:
+  template:
+    spec:
+      containers:
+      - name: strimzi-cluster-operator
+        env:
+        - name: STRIMZI_NAMESPACE
+          value: kafka-dev

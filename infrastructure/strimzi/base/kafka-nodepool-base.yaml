@@ -1,0 +1,12 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: kafka-pool
+  labels:
+    strimzi.io/cluster: kafka-cluster
+spec:
+  # Replicas, roles, storage will be patched by overlays
+  replicas: 1
+  roles:
+    - controller
+    - broker
