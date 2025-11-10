@@ -6,6 +6,8 @@ spec:
   kafka:
     version: 4.1.0
     metadataVersion: 4.1-IV1
+    authorization:
+      type: simple
     # Use KRaft mode (no Zookeeper)
     listeners:
       - name: plain
