@@ -3,8 +3,8 @@ kind: Kustomization
 namespace: kafka-dev # Deploys this stack to the 'kafka-dev' namespace
 resources:
 - ../../base
-- ../user
-- ../topic
+- user/
+- topic/
 patches:
 - path: patch-operator-namespace.yaml
 - path: patch-kafka-cluster.yaml
