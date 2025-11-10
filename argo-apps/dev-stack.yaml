@@ -21,6 +21,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+      - ReplaceResources=true
   # Ignore operator-managed status fields
   ignoreDifferences:
   - group: kafka.strimzi.io
@@ -47,8 +48,3 @@ spec:
     kind: KafkaBridge
     jsonPointers:
     - /status
-
-  - group: apiextensions.k8s.io
-    kind: CustomResourceDefinition
-    jsonPointers:
-    - /spec/versions/0/deprecated
