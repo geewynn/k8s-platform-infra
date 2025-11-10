@@ -23,16 +23,32 @@ spec:
       - ServerSideApply=true
   # Ignore operator-managed status fields
   ignoreDifferences:
-    - group: kafka.strimzi.io
-      kind: Kafka
-      jsonPointers:
-        - /status
-    - group: kafka.strimzi.io
-      kind: KafkaNodePool
-      jsonPointers:
-        - /status
-    - group: ""
-      kind: Service
-      jsonPointers:
-        - /spec/clusterIP
-        - /spec/clusterIPs
+  - group: kafka.strimzi.io
+    kind: Kafka
+    jsonPointers:
+    - /status
+  - group: kafka.strimzi.io
+    kind: KafkaNodePool
+    jsonPointers:
+    - /status
+  - group: kafka.strimzi.io
+    kind: KafkaTopic
+    jsonPointers:
+    - /status
+  - group: kafka.strimzi.io
+    kind: KafkaUser
+    jsonPointers:
+    - /status
+  - group: kafka.strimzi.io
+    kind: KafkaMirrorMaker2
+    jsonPointers:
+    - /status
+  - group: kafka.strimzi.io
+    kind: KafkaBridge
+    jsonPointers:
+    - /status
+
+  - group: apiextensions.k8s.io
+    kind: CustomResourceDefinition
+    jqPathExpressions:
+    - .spec.versions?.deprecated
