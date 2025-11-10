@@ -4,7 +4,8 @@ metadata:
   name: kafka-cluster
 spec:
   kafka:
-    version: 3.9.0
+    version: 4.1.0
+    metadataVersion: 4.1-IV1
     # Use KRaft mode (no Zookeeper)
     listeners:
       - name: plain
