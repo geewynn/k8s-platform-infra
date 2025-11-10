@@ -9,7 +9,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: strimzi-cluster-operator
-    namespace: kft
+    namespace: kafka-dev
 roleRef:
   kind: ClusterRole
   name: strimzi-entity-operator
