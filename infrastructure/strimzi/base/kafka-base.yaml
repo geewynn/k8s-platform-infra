@@ -1,7 +1,7 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
-  name: kafka-deploy
+  name: kafka-cluster
   namespace: kft # Namespace will be enforced by the overlay
 spec:
   kafka:
