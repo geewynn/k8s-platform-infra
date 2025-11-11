@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- strimzi-cruise-control.yaml
+- strimzi-kafka-bridge.yaml
+- strimzi-kafka-connect.yaml
+- strimzi-kafka-exporter.yaml
+- strimzi-kafka-mirror-maker-2.yaml
+- strimzi-kafka-oauth.yaml
+- strimzi-kafka.json
+- strimzi-kraft.json
+- strimzi-operators.yaml
+- grafana-dashboard/

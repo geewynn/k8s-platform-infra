@@ -3,6 +3,8 @@ kind: Kustomization
 namespace: kafka-prod
 resources:
 - ../../base
+- user/
+- topic/
 patches:
 - path: patch-operator-namespace.yaml
 - path: patch-kafka-cluster.yaml

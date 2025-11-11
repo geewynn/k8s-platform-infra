@@ -28,7 +28,6 @@ spec:
     kind: CustomResourceDefinition
     jqPathExpressions:
     - '.spec.versions[]?.deprecated'
-  # Your existing ignores
   - group: kafka.strimzi.io
     kind: Kafka
     jsonPointers:

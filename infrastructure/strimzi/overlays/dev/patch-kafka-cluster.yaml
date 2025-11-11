@@ -34,6 +34,13 @@ spec:
       log.retention.hours: 168
       log.segment.bytes: 1073741824
       log.retention.check.interval.ms: 300000
+      # Metrics for monitoring
+    metricsConfig:
+      type: jmxPrometheusExporter
+      valueFrom:
+        configMapKeyRef:
+          name: kafka-metrics
+          key: kafka-metrics-config.yml
   # No entity operator needed for dev (add manually if needed)
   entityOperator:
     topicOperator:
@@ -64,3 +71,6 @@ spec:
         type: inline
         loggers:
           rootLogger.level: INFO
+  kafkaExporter:
+    topicRegex: ".*"
+    groupRegex: ".*"

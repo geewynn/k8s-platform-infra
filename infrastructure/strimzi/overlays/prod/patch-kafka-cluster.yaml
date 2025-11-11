@@ -4,7 +4,7 @@ metadata:
   name: kafka-cluster
 spec:
   kafka:
-    version: 3.9.0
+    version: 4.1.0
     # KRaft mode listeners
     listeners:
       - name: plain
@@ -89,3 +89,6 @@ spec:
       limits:
         cpu: "1"
         memory: 2Gi
+  kafkaExporter:
+    topicRegex: ".*"
+    groupRegex: ".*"
