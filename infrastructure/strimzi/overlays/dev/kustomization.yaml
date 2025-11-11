@@ -5,6 +5,7 @@ resources:
 - ../../base
 - user/
 - topic/
+- metrics/
 patches:
 - path: patch-operator-namespace.yaml
 - path: patch-kafka-cluster.yaml
