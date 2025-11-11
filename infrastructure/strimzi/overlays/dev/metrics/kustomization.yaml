@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
 - kafka-metrics.yaml
 - prometheus/
-- grafana-dashboard/
+- grafana-dashboards/
