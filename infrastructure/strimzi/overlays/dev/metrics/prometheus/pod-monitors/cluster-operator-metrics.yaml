@@ -4,6 +4,7 @@ metadata:
   name: cluster-operator-metrics
   labels:
     app: strimzi
+    release: kube-prometheus-stack
 spec:
   selector:
     matchLabels:
