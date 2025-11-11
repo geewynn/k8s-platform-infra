@@ -4,4 +4,4 @@ resources:
 - bridge-metrics.yaml
 - cluster-operator-metrics.yaml
 - entity-operator-metrics.yaml
-- kafka-resource-metrics.yaml
+- kafka-resources-metrics.yaml
