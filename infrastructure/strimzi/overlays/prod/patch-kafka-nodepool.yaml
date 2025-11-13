@@ -26,13 +26,12 @@ spec:
       memory: 8Gi
       cpu: "2"
   jvmOptions:
-    "-Xms": "2G"
-    "-Xmx": "2G"
+    "-Xms": "2g"
+    "-Xmx": "2g"
     # Additional JVM options for production
-    "-XX:+UseG1GC": ""
+    "-XX:+UseG1GC": "true"
     "-XX:MaxGCPauseMillis": "20"
     "-XX:InitiatingHeapOccupancyPercent": "35"
-    "-XX:G1HeapRegionSize": "16M"
   template:
     pod:
       metadata:
