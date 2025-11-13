@@ -11,7 +11,7 @@ spec:
       strimzi.io/kind: cluster-operator
   namespaceSelector:
     matchNames:
-      - kafka-dev
+      - kafka-prod
   podMetricsEndpoints:
   - path: /metrics
     port: http
