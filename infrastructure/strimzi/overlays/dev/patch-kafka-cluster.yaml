@@ -8,7 +8,6 @@ spec:
     metadataVersion: 4.1-IV1
     authorization:
       type: simple
-    # Use KRaft mode (no Zookeeper)
     listeners:
       - name: plain
         port: 9092
