@@ -16,7 +16,7 @@ spec:
         type: persistent-claim
         size: 60Gi
         deleteClaim: false
-        class: longhorn
+        class: longhorn-kafka
         kraftMetadata: shared
   resources:
     requests:
