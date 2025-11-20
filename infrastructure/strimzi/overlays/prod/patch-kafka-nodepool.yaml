@@ -25,6 +25,12 @@ spec:
     limits:
       memory: 4Gi
       cpu: "1"
+  jvmOptions:
+    "-Xms": "2Gi"   # Initial Heap Size
+    "-Xmx": "2Gi"   # Max Heap Size
+    "-XX":          # Advanced GC tuning (Optional)
+      "UseG1GC": "true"
+  
   template:
     pod:
       metadata:
