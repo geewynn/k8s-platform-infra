@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - keeper.yaml
   - keeper-config.yaml
-  - namespace.yaml
   - service.yaml
