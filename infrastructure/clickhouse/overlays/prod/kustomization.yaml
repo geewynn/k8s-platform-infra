@@ -4,9 +4,9 @@ kind: Kustomization
 namespace: clickhouse
 
 resources:
-  - ../../base/operator
-  - ../../base/ch-keeper
-  - ../../base/ch-install
+  - ../../base/operator/
+  - ../../base/ch-keeper/
+  - ../../base/ch-install/
   - secrets.yaml
 
 patches:
