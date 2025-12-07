@@ -131,7 +131,8 @@ spec:
     volumeClaimTemplates:
       - name: "data-volume-template"
         spec:
-          accessModes:
+          storageClassName: longhorn 
+          accessModes:              
             - ReadWriteOnce
           resources:
             requests:
@@ -139,7 +140,8 @@ spec:
       
       - name: "log-volume-template"
         spec:
-          accessModes:
+          storageClassName: longhorn 
+          accessModes:              
             - ReadWriteOnce
           resources:
             requests:
