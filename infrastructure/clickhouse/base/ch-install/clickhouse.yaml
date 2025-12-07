@@ -13,11 +13,11 @@ spec:
         
     zookeeper:
       nodes:
-        - host: keeper-ha-keeper-cluster-0.keeper-ha-keeper-cluster-headless
+        - host: zookeeper-0.zookeepers.clickhouse.svc.cluster.local
           port: 2181
-        - host: keeper-ha-keeper-cluster-1.keeper-ha-keeper-cluster-headless
+        - host: zookeeper-1.zookeepers.clickhouse.svc.cluster.local
           port: 2181
-        - host: keeper-ha-keeper-cluster-2.keeper-ha-keeper-cluster-headless
+        - host: zookeeper-2.zookeepers.clickhouse.svc.cluster.local
           port: 2181
       session_timeout_ms: 30000
       operation_timeout_ms: 10000
