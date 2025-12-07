@@ -130,6 +130,7 @@ spec:
     
     volumeClaimTemplates:
       - name: "data-volume-template"
+        reclaimPolicy: Retain
         spec:
           storageClassName: longhorn 
           accessModes:              
@@ -139,6 +140,7 @@ spec:
               storage: 100Gi
       
       - name: "log-volume-template"
+        reclaimPolicy: Retain
         spec:
           storageClassName: longhorn 
           accessModes:              
