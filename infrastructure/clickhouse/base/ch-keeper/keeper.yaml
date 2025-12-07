@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: clickhouse-keeper
+  namespace: clickhouse
+  labels:
+    app: clickhouse-keeper
+spec:
+  selector:
+    matchLabels:
+      app: clickhouse-keeper
+  serviceName: clickhouse-keeper
+  replicas: 3
+  updateStrategy:
+    type: RollingUpdate
+  podManagementPolicy: OrderedReady
+  template:
+    metadata:
+      labels:
+        app: clickhouse-keeper
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - clickhouse-keeper
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: clickhouse-keeper
+          image: clickhouse/clickhouse-keeper:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+          ports:
+            - containerPort: 9181
+              name: client
+            - containerPort: 9234
+              name: raft
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/clickhouse
+            - name: config
+              mountPath: /etc/clickhouse-keeper/keeper.xml
+              subPath: keeper.xml
+          livenessProbe:
+            tcpSocket:
+              port: 9181
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - -c
+                - "echo ruok | nc localhost 9181 | grep imok"
+            initialDelaySeconds: 10
+            periodSeconds: 5
+      volumes:
+        - name: config
+          configMap:
+            name: clickhouse-keeper-config
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 10Gi
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: clickhouse-keeper-pdb
+  namespace: clickhouse
+spec:
+  selector:
+    matchLabels:
+      app: clickhouse-keeper
+  maxUnavailable: 1

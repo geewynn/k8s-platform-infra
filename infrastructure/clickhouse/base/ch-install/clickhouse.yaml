@@ -1,0 +1,166 @@
+apiVersion: "clickhouse.altinity.com/v1"
+kind: "ClickHouseInstallation"
+metadata:
+  name: "clickhouse-ha"
+  namespace: "clickhouse"
+spec:
+  configuration:
+    clusters:
+      - name: "cluster_ha"
+        layout:
+          shardsCount: 1
+          replicasCount: 2
+        
+    zookeeper:
+      nodes:
+        - host: keeper-ha-keeper-cluster-0.keeper-ha-keeper-cluster-headless
+          port: 2181
+        - host: keeper-ha-keeper-cluster-1.keeper-ha-keeper-cluster-headless
+          port: 2181
+        - host: keeper-ha-keeper-cluster-2.keeper-ha-keeper-cluster-headless
+          port: 2181
+      session_timeout_ms: 30000
+      operation_timeout_ms: 10000
+      root: /clickhouse
+    
+    users:
+      default/password_sha256_hex: 
+        from_env: "DEFAULT_PASSWORD_HASH"
+      default/networks/ip:
+        - "::/0"
+      default/profile: "default"
+      default/access_management: 1
+    
+    settings:
+      compression/case/method: "zstd"
+      distributed_ddl/pool_size: 2
+      distributed_ddl/task_max_lifetime: 300
+      max_concurrent_queries: 100
+      max_server_memory_usage_to_ram_ratio: 0.7
+      background_pool_size: 16
+      background_schedule_pool_size: 16
+      background_merges_mutations_concurrency_ratio: 2
+
+  defaults:
+    templates:
+      podTemplate: "clickhouse-pod-template"
+      dataVolumeClaimTemplate: "data-volume-template"
+      logVolumeClaimTemplate: "log-volume-template"
+      serviceTemplate: "service-template"
+  
+  templates:
+    podTemplates:
+      - name: "clickhouse-pod-template"
+        podDistribution:
+          - type: ClickHouseAntiAffinity
+            topologyKey: "kubernetes.io/hostname"
+        spec:
+          securityContext:
+            runAsUser: 101
+            runAsGroup: 101
+            fsGroup: 101
+            runAsNonRoot: true
+          
+          containers:
+            - name: clickhouse
+              image: clickhouse/clickhouse-server:24.11
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: DEFAULT_PASSWORD_HASH
+                  valueFrom:
+                    secretKeyRef:
+                      name: clickhouse-default-passwords
+                      key: password_sha256_hex
+              
+              resources:
+                requests:
+                  memory: "2Gi"
+                  cpu: "2"
+                limits:
+                  memory: "4Gi"
+                  cpu: "4"
+              
+              ports:
+                - name: https
+                  containerPort: 8443
+                  protocol: TCP
+                - name: tcps
+                  containerPort: 9440
+                  protocol: TCP
+                - name: interserver
+                  containerPort: 9010
+                  protocol: TCP
+              
+              volumeMounts:
+                - name: certs
+                  mountPath: /etc/clickhouse-server/certs
+                  readOnly: true
+                - name: config
+                  mountPath: /etc/clickhouse-server/config.d
+                  readOnly: true
+              
+              livenessProbe:
+                httpGet:
+                  path: /ping
+                  port: 8443
+                  scheme: HTTPS
+                initialDelaySeconds: 30
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 3
+              
+              readinessProbe:
+                httpGet:
+                  path: /ping
+                  port: 8443
+                  scheme: HTTPS
+                initialDelaySeconds: 10
+                periodSeconds: 5
+                timeoutSeconds: 3
+                failureThreshold: 3
+          
+          volumes:
+            - name: certs
+              secret:
+                secretName: clickhouse-tls
+                defaultMode: 0640
+            - name: config
+              configMap:
+                name: clickhouse-config
+    
+    volumeClaimTemplates:
+      - name: "data-volume-template"
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 100Gi
+      
+      - name: "log-volume-template"
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 5Gi
+    
+    serviceTemplates:
+      - name: "service-template"
+        generateName: "clickhouse-{chi}"
+        metadata:
+          labels:
+            app: clickhouse
+            cluster: cluster_ha
+        spec:
+          ports:
+            - name: https
+              port: 8443
+              targetPort: 8443
+              protocol: TCP
+            - name: tcps
+              port: 9440
+              targetPort: 9440
+              protocol: TCP
+          type: ClusterIP
+          sessionAffinity: ClientIP
