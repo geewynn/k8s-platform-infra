@@ -91,7 +91,7 @@ data:
     </clickhouse>
   
 
-  users.d/default-user.xml: |
+  default-user.xml: |
         <clickhouse>
           <users>
             <default>
