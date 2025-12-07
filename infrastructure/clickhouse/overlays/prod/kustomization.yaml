@@ -8,8 +8,8 @@ resources:
   - ../../base/ch-keeper/
   - ../../base/ch-install/
 
-patches:
-  - path: storage.yaml
-    target:
-      kind: ClickHouseInstallation
-      name: clickhouse-ha
+# patches:
+#   - path: storage.yaml
+#     target:
+#       kind: ClickHouseInstallation
+#       name: clickhouse-ha
