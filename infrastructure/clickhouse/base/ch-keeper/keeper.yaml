@@ -33,6 +33,23 @@ spec:
         - name: clickhouse-keeper
           image: clickhouse/clickhouse-keeper:latest
           imagePullPolicy: IfNotPresent
+
+          command:
+          - /bin/bash
+          - -c
+          - |
+            # 1. Parse the hostname (e.g., clickhouse-keeper-0) to get the index (0)
+            # ${HOSTNAME##*-} takes the string after the last hyphen
+            INDEX=${HOSTNAME##*-}
+            
+            # 2. Add 1 to get the server_id (0 -> 1, 1 -> 2)
+            export KEEPER_SERVER_ID=$((INDEX+1))
+            
+            echo "Starting ClickHouse Keeper with Server ID: $KEEPER_SERVER_ID"
+            
+            # 3. Start the application
+            # We use 'exec' so the keeper process replaces bash as PID 1
+            exec /usr/bin/clickhouse-keeper --config-file /etc/clickhouse-keeper/keeper.xml
           resources:
             requests:
               memory: "256Mi"
