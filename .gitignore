@@ -1,2 +1,4 @@
 sslcerts
 age.agekey
+secrets.decrypted.yaml
+ssl-certs.decrypted.yaml

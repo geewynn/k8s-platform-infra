@@ -5,14 +5,4 @@ namespace: clickhouse
 
 resources:
   - ch-config.yaml
-  - secrets.yaml
-  - ssl-certs.yaml
   - clickhouse.yaml
-
-# configMapGenerator:
-#   - name: clickhouse-config
-#     files:
-#       - configs/ssl.xml
-#       - configs/storage.xml
-#       - configs/logging.xml
-#       - configs/network.xml
