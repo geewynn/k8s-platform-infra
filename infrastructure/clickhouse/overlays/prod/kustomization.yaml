@@ -7,7 +7,6 @@ resources:
   - ../../base/operator/
   - ../../base/ch-keeper/
   - ../../base/ch-install/
-  - secrets.yaml
 
 patches:
   - path: storage.yaml
