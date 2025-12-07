@@ -19,6 +19,11 @@ spec:
       labels:
         app: clickhouse-keeper
     spec:
+      # Run as clickhouse user (UID 101)
+      securityContext:
+        runAsUser: 101
+        runAsGroup: 101
+        fsGroup: 101
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -29,15 +34,24 @@ spec:
                     values:
                       - clickhouse-keeper
               topologyKey: kubernetes.io/hostname
+      initContainers:
+        - name: fix-permissions
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              chown -R 101:101 /var/lib/clickhouse || true
+              chmod -R 755 /var/lib/clickhouse || true
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/clickhouse
+          securityContext:
+            runAsUser: 0
       containers:
         - name: clickhouse-keeper
           image: clickhouse/clickhouse-keeper:latest
           imagePullPolicy: IfNotPresent
-          env:
-            - name: KEEPER_SERVER_ID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
           command:
           - /bin/bash
           - -c
