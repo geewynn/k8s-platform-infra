@@ -3,11 +3,13 @@ kind: Application
 metadata:
   name: clickhouse-prod
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: https://github.com/geewynn/k8s-platform-infra.git
-    targetRevision: main
+    targetRevision: HEAD
     path: infrastructure/clickhouse/overlays/prod
   destination:
     server: https://kubernetes.default.svc
@@ -18,6 +20,8 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
+      - ReplaceResources=true
     retry:
       limit: 5
       backoff:
