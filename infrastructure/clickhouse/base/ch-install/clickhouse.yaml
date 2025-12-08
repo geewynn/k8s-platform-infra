@@ -63,7 +63,7 @@ spec:
           
           containers:
             - name: clickhouse
-              image: clickhouse/clickhouse-server:24.11
+              image: clickhouse/clickhouse-server:25.11
               imagePullPolicy: IfNotPresent
               env:
                 - name: DEFAULT_PASSWORD_HASH
