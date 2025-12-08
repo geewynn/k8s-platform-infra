@@ -5,7 +5,7 @@ namespace: clickhouse
 
 resources:
   - ../../base/operator/
-  # - ../../base/ch-keeper/
+  - ../../base/ch-keeper/
   # - ../../base/ch-install/
 
 # patches:
