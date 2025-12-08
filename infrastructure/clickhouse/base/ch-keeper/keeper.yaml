@@ -63,10 +63,10 @@ spec:
           resources:
             requests:
               memory: "512M"
-              cpu: "4"
+              cpu: "2"
             limits:
               memory: "2Gi"
-              cpu: "8"
+              cpu: "4"
           ports:
             - containerPort: 2181
               name: client
