@@ -9,7 +9,7 @@ spec:
       - name: "cluster-ha"
         layout:
           shardsCount: 1
-          replicasCount: 2
+          replicasCount: 1
         
     zookeeper:
       nodes:
