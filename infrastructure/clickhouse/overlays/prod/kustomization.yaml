@@ -6,7 +6,7 @@ namespace: clickhouse
 resources:
   - ../../base/operator/
   - ../../base/ch-keeper/
-  # - ../../base/ch-install/
+  - ../../base/ch-install/
 
 # patches:
 #   - path: storage.yaml

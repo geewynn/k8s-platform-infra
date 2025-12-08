@@ -75,10 +75,10 @@ spec:
               resources:
                 requests:
                   memory: "2Gi"
-                  cpu: "2"
+                  cpu: "512"
                 limits:
                   memory: "4Gi"
-                  cpu: "4"
+                  cpu: "1"
               
               ports:
                 - name: https
