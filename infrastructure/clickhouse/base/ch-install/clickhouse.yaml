@@ -65,7 +65,7 @@ spec:
           command: ['sh', '-c']
           args:
           - |
-            # Copy certificates to a writable location
+            # Copy certificates to a writable locations
             cp /tmp/certs/* /etc/clickhouse-server/certs/
             # Fix ownership
             chown 101:101 /etc/clickhouse-server/certs/*
