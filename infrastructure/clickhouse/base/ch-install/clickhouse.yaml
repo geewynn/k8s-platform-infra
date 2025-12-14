@@ -74,7 +74,7 @@ spec:
             chmod 644 /etc/clickhouse-server/certs/server.crt
             chmod 644 /etc/clickhouse-server/certs/ca.crt
           volumeMounts:
-          - name: clickhouse-tls-secret-volume
+          - name: certs
             mountPath: /tmp/certs
             readOnly: true
           - name: cert-volume
@@ -125,25 +125,25 @@ spec:
                 - name: cert-volume
                   mountPath: /etc/clickhouse-server/certs
               
-              # livenessProbe:
-              #   httpGet:
-              #     path: /ping
-              #     port: 8443
-              #     scheme: HTTPS
-              #   initialDelaySeconds: 30
-              #   periodSeconds: 10
-              #   timeoutSeconds: 5
-              #   failureThreshold: 3
+              livenessProbe:
+                httpGet:
+                  path: /ping
+                  port: 8123
+                  scheme: HTTPS
+                initialDelaySeconds: 30
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 3
               
-              # readinessProbe:
-              #   httpGet:
-              #     path: /ping
-              #     port: 8443
-              #     scheme: HTTPS
-              #   initialDelaySeconds: 10
-              #   periodSeconds: 5
-              #   timeoutSeconds: 3
-              #   failureThreshold: 3
+              readinessProbe:
+                httpGet:
+                  path: /ping
+                  port: 8123
+                  scheme: HTTPS
+                initialDelaySeconds: 10
+                periodSeconds: 5
+                timeoutSeconds: 3
+                failureThreshold: 3
           
           volumes:
             - name: certs
@@ -186,9 +186,17 @@ spec:
             cluster: cluster-ha
         spec:
           ports:
+            - name: http
+              port: 8123
+              targetPort: 8123
+              protocol: TCP
             - name: https
               port: 8443
               targetPort: 8443
+              protocol: TCP
+            - name: tcp
+              port: 9000
+              targetPort: 9000
               protocol: TCP
             - name: tcps
               port: 9440
