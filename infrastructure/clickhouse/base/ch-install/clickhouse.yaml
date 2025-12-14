@@ -56,10 +56,29 @@ spec:
             topologyKey: "kubernetes.io/hostname"
         spec:
           securityContext:
-            runAsUser: 101
-            runAsGroup: 101
-            fsGroup: 101
-            runAsNonRoot: true
+           fsGroup: 101
+          
+          # Init container to fix certificate permissions
+        initContainers:
+        - name: fix-cert-permissions
+          image: busybox:1.35
+          command: ['sh', '-c']
+          args:
+          - |
+            # Copy certificates to a writable location
+            cp /tmp/certs/* /etc/clickhouse-server/certs/
+            # Fix ownership
+            chown 101:101 /etc/clickhouse-server/certs/*
+            # Fix permissions
+            chmod 600 /etc/clickhouse-server/certs/tls.key
+            chmod 644 /etc/clickhouse-server/certs/tls.crt
+            chmod 644 /etc/clickhouse-server/certs/ca.crt
+          volumeMounts:
+          - name: clickhouse-tls-secret-volume
+            mountPath: /tmp/certs
+            readOnly: true
+          - name: cert-volume
+            mountPath: /etc/clickhouse-server/certs
           
           containers:
             - name: clickhouse
@@ -71,6 +90,11 @@ spec:
                     secretKeyRef:
                       name: clickhouse-default-password
                       key: password_sha256_hex
+              securityContext:
+                runAsUser: 101
+                runAsGroup: 101
+                fsGroup: 101
+                runAsNonRoot: true
               
               resources:
                 requests:
@@ -93,11 +117,13 @@ spec:
               
               volumeMounts:
                 - name: certs
-                  mountPath: /etc/clickhouse-server/certs
+                  mountPath: /tmp/certs
                   readOnly: true
                 - name: config
                   mountPath: /etc/clickhouse-server/config.d
                   readOnly: true
+                - name: cert-volume
+                  mountPath: /etc/clickhouse-server/certs
               
               livenessProbe:
                 httpGet:
@@ -127,6 +153,8 @@ spec:
             - name: config
               configMap:
                 name: clickhouse-config
+            - name: cert-volume
+              emptyDir: {}
     
     volumeClaimTemplates:
       - name: "data-volume-template"
