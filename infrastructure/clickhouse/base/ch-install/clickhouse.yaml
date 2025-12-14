@@ -30,9 +30,6 @@ spec:
           <https_port>8443</https_port>
           <tcp_port_secure>9440</tcp_port_secure>
           <interserver_https_port>9010</interserver_https_port>
-          <http_port remove="1"/>
-          <tcp_port remove="1"/>
-          <interserver_http_port remove="1"/>
         </clickhouse>
     clusters:
       - name: "cluster-ha"
