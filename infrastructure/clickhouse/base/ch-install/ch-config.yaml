@@ -4,33 +4,33 @@ metadata:
   name: clickhouse-config
   namespace: clickhouse
 data:
-  ssl.xml: |
-    <clickhouse>
-        <openSSL>
-                <server>
-                    <certificateFile>/etc/clickhouse-server/certs/server.crt</certificateFile>
-                    <privateKeyFile>/etc/clickhouse-server/certs/server.key</privateKeyFile>
-                    <verificationMode>relaxed</verificationMode>
-                    <loadDefaultCAFile>true</loadDefaultCAFile>
-                    <cacheSessions>true</cacheSessions>
-                    <disableProtocols>sslv2,sslv3</disableProtocols>
-                    <preferServerCiphers>true</preferServerCiphers>
-                </server>
-                <client>
-                    <loadDefaultCAFile>true</loadDefaultCAFile>
-                    <caConfig>/etc/clickhouse-server/certs/ca.crt</caConfig>
-                    <cacheSessions>true</cacheSessions>
-                    <disableProtocols>sslv2,sslv3</disableProtocols>
-                    <preferServerCiphers>true</preferServerCiphers>
-                </client>
-            </openSSL>
-        <https_port>8443</https_port>
-        <tcp_port_secure>9440</tcp_port_secure>
-        <interserver_https_port>9010</interserver_https_port>
-        <http_port>8123</http_port>
-        <tcp_port>9000</tcp_port>
-        <interserver_http_port>9009</interserver_http_port>
-    </clickhouse>
+  # ssl.xml: |
+  #   <clickhouse>
+  #       <openSSL>
+  #               <server>
+  #                   <certificateFile>/etc/clickhouse-server/certs/server.crt</certificateFile>
+  #                   <privateKeyFile>/etc/clickhouse-server/certs/server.key</privateKeyFile>
+  #                   <verificationMode>relaxed</verificationMode>
+  #                   <loadDefaultCAFile>true</loadDefaultCAFile>
+  #                   <cacheSessions>true</cacheSessions>
+  #                   <disableProtocols>sslv2,sslv3</disableProtocols>
+  #                   <preferServerCiphers>true</preferServerCiphers>
+  #               </server>
+  #               <client>
+  #                   <loadDefaultCAFile>true</loadDefaultCAFile>
+  #                   <caConfig>/etc/clickhouse-server/certs/ca.crt</caConfig>
+  #                   <cacheSessions>true</cacheSessions>
+  #                   <disableProtocols>sslv2,sslv3</disableProtocols>
+  #                   <preferServerCiphers>true</preferServerCiphers>
+  #               </client>
+  #           </openSSL>
+  #       <https_port>8443</https_port>
+  #       <tcp_port_secure>9440</tcp_port_secure>
+  #       <interserver_https_port>9010</interserver_https_port>
+  #       <http_port remove="1"/>
+  #       <tcp_port remove="1"/>
+  #       <interserver_http_port remove="1"/>
+  #   </clickhouse>
   
   storage.xml: |
     <clickhouse>

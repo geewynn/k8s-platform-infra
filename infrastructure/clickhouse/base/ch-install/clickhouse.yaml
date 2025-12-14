@@ -5,6 +5,35 @@ metadata:
   namespace: "clickhouse"
 spec:
   configuration:
+    files:
+      ch-config.xml: |
+        <clickhouse>
+          <openSSL>
+                  <server>
+                      <certificateFile>/etc/clickhouse-server/certs/server.crt</certificateFile>
+                      <privateKeyFile>/etc/clickhouse-server/certs/server.key</privateKeyFile>
+                      <verificationMode>relaxed</verificationMode>
+                      <loadDefaultCAFile>true</loadDefaultCAFile>
+                      <cacheSessions>true</cacheSessions>
+                      <disableProtocols>sslv2,sslv3</disableProtocols>
+                      <preferServerCiphers>true</preferServerCiphers>
+                  </server>
+                  <client>
+                      <loadDefaultCAFile>true</loadDefaultCAFile>
+                      <caConfig>/etc/clickhouse-server/certs/ca.crt</caConfig>
+                      <cacheSessions>true</cacheSessions>
+                      <disableProtocols>sslv2,sslv3</disableProtocols>
+                      <preferServerCiphers>true</preferServerCiphers>
+                  </client>
+              </openSSL>
+          <listen_host>0.0.0.0</listen_host>
+          <https_port>8443</https_port>
+          <tcp_port_secure>9440</tcp_port_secure>
+          <interserver_https_port>9010</interserver_https_port>
+          <http_port remove="1"/>
+          <tcp_port remove="1"/>
+          <interserver_http_port remove="1"/>
+        </clickhouse>
     clusters:
       - name: "cluster-ha"
         layout:
