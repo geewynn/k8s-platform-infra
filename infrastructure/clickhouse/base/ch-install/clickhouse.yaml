@@ -70,8 +70,8 @@ spec:
             # Fix ownership
             chown 101:101 /etc/clickhouse-server/certs/*
             # Fix permissions
-            chmod 600 /etc/clickhouse-server/certs/tls.key
-            chmod 644 /etc/clickhouse-server/certs/tls.crt
+            chmod 600 /etc/clickhouse-server/certs/server.key
+            chmod 644 /etc/clickhouse-server/certs/server.crt
             chmod 644 /etc/clickhouse-server/certs/ca.crt
           volumeMounts:
           - name: clickhouse-tls-secret-volume
