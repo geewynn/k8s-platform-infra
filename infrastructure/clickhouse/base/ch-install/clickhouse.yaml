@@ -50,6 +50,8 @@ spec:
             key: server.key
     clusters:
       - name: "cluster-ha"
+        secure: "yes"
+        insecure: "no"
         layout:
           shardsCount: 1
           replicasCount: 2
