@@ -52,8 +52,7 @@ spec:
       root: /clickhouse
     
     users:
-      default/password_sha256_hex: 
-        from_env: "DEFAULT_PASSWORD_HASH"
+      default/password_sha256_hex: 245f6417a918b04ef4e267d45a611958f4dbd5e6c9248b74b7c593f169306b8e
       default/networks/ip:
         - "::/0"
       default/profile: "default"
@@ -112,12 +111,12 @@ spec:
             - name: clickhouse
               image: clickhouse/clickhouse-server:25.11
               imagePullPolicy: IfNotPresent
-              env:
-                - name: DEFAULT_PASSWORD_HASH
-                  valueFrom:
-                    secretKeyRef:
-                      name: clickhouse-default-passwords
-                      key: password_sha256_hex
+              # env:
+              #   - name: DEFAULT_PASSWORD_HASH
+              #     valueFrom:
+              #       secretKeyRef:
+              #         name: clickhouse-default-passwords
+              #         key: password_sha256_hex
               securityContext:
                 runAsUser: 101
                 runAsGroup: 101
