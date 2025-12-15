@@ -33,6 +33,21 @@ spec:
           <interserver_https_port>9010</interserver_https_port>
           <interserver_http_port remove="1"/>
         </clickhouse>
+      server.crt:
+            valueFrom:
+              secretKeyRef:
+                name: clickhouse-ssl-certs
+                key: server.crt
+      server.key:
+        valueFrom:
+          secretKeyRef:
+            name: clickhouse-ssl-certs
+            key: server.key
+      ca.crt:
+        valueFrom:
+          secretKeyRef:
+            name: clickhouse-ssl-certs
+            key: server.key
     clusters:
       - name: "cluster-ha"
         layout:
@@ -89,28 +104,6 @@ spec:
           securityContext:
            fsGroup: 101
           
-          # Init container to fix certificate permissions
-          initContainers:
-          - name: fix-cert-permissions
-            image: busybox:1.35
-            command: ['sh', '-c']
-            args:
-            - |
-              # Copy certificates to a writable locations
-              cp /tmp/certs/* /etc/clickhouse-server/certs/
-              # Fix ownership
-              chown 101:101 /etc/clickhouse-server/certs/*
-              # Fix permissions
-              chmod 600 /etc/clickhouse-server/certs/server.key
-              chmod 644 /etc/clickhouse-server/certs/server.crt
-              chmod 644 /etc/clickhouse-server/certs/ca.crt
-            volumeMounts:
-            - name: certs
-              mountPath: /tmp/certs
-              readOnly: true
-            - name: cert-volume
-              mountPath: /etc/clickhouse-server/certs
-          
           containers:
             - name: clickhouse
               image: clickhouse/clickhouse-server:25.11
@@ -129,15 +122,15 @@ spec:
                   memory: "4Gi"
                   cpu: "1"
               
-              volumeMounts:
-                - name: certs
-                  mountPath: /tmp/certs
-                  readOnly: true
-                - name: config
-                  mountPath: /etc/clickhouse-server/config.d
-                  readOnly: true
-                - name: cert-volume
-                  mountPath: /etc/clickhouse-server/certs
+              # volumeMounts:
+              #   - name: certs
+              #     mountPath: /tmp/certs
+              #     readOnly: true
+              #   - name: config
+              #     mountPath: /etc/clickhouse-server/config.d
+              #     readOnly: true
+              #   - name: cert-volume
+              #     mountPath: /etc/clickhouse-server/certs
               
               livenessProbe:
                 httpGet:
@@ -159,16 +152,16 @@ spec:
                 timeoutSeconds: 3
                 failureThreshold: 3
           
-          volumes:
-            - name: certs
-              secret:
-                secretName: clickhouse-tls
-                defaultMode: 0640
-            - name: config
-              configMap:
-                name: clickhouse-config
-            - name: cert-volume
-              emptyDir: {}
+          # volumes:
+          #   - name: certs
+          #     secret:
+          #       secretName: clickhouse-tls
+          #       defaultMode: 0640
+          #   - name: config
+          #     configMap:
+          #       name: clickhouse-config
+          #   - name: cert-volume
+          #     emptyDir: {}
     
     volumeClaimTemplates:
       - name: "data-volume-template"
