@@ -116,7 +116,7 @@ spec:
                 - name: DEFAULT_PASSWORD_HASH
                   valueFrom:
                     secretKeyRef:
-                      name: clickhouse-default-password
+                      name: clickhouse-default-passwords
                       key: password_sha256_hex
               securityContext:
                 runAsUser: 101
