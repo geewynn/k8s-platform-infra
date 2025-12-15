@@ -57,6 +57,10 @@ spec:
           secretKeyRef:
             name: clickhouse-default-passwords
             key: password_sha256_hex
+      default/networks/ip:
+        - "::/0"
+      default/profile: "default"
+      default/access_management: 1
     
     settings:
       compression/case/method: "zstd"
