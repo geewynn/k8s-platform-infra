@@ -37,7 +37,7 @@ spec:
       - name: "cluster-ha"
         layout:
           shardsCount: 1
-          replicasCount: 1
+          replicasCount: 2
         
     zookeeper:
       nodes:
@@ -111,12 +111,6 @@ spec:
             - name: clickhouse
               image: clickhouse/clickhouse-server:25.11
               imagePullPolicy: IfNotPresent
-              # env:
-              #   - name: DEFAULT_PASSWORD_HASH
-              #     valueFrom:
-              #       secretKeyRef:
-              #         name: clickhouse-default-passwords
-              #         key: password_sha256_hex
               securityContext:
                 runAsUser: 101
                 runAsGroup: 101
@@ -130,17 +124,6 @@ spec:
                 limits:
                   memory: "4Gi"
                   cpu: "1"
-              
-              ports:
-                - name: https
-                  containerPort: 8443
-                  protocol: TCP
-                - name: tcps
-                  containerPort: 9440
-                  protocol: TCP
-                - name: interserver
-                  containerPort: 9010
-                  protocol: TCP
               
               volumeMounts:
                 - name: certs
