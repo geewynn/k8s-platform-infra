@@ -10,8 +10,9 @@ spec:
         <clickhouse>
           <openSSL>
                   <server>
-                      <certificateFile>/etc/clickhouse-server/certs/server.crt</certificateFile>
-                      <privateKeyFile>/etc/clickhouse-server/certs/server.key</privateKeyFile>
+                      <certificateFile>/etc/clickhouse-server/secrets.d/server.crt/clickhouse-ssl-certs/server.crt</certificateFile>
+                      <privateKeyFile>/etc/clickhouse-server/secrets.d/server.key/clickhouse-ssl-certs/server.key</privateKeyFile>
+                      <caConfig>/etc/clickhouse-server/secrets.d/ca.crt/clickhouse-ssl-certs/ca.crt</caConfig>
                       <verificationMode>relaxed</verificationMode>
                       <loadDefaultCAFile>true</loadDefaultCAFile>
                       <cacheSessions>true</cacheSessions>
@@ -20,7 +21,7 @@ spec:
                   </server>
                   <client>
                       <loadDefaultCAFile>true</loadDefaultCAFile>
-                      <caConfig>/etc/clickhouse-server/certs/ca.crt</caConfig>
+                      <caConfig>/etc/clickhouse-server/secrets.d/ca.crt/clickhouse-ssl-certs/ca.crt</caConfig>
                       <cacheSessions>true</cacheSessions>
                       <disableProtocols>sslv2,sslv3</disableProtocols>
                       <preferServerCiphers>true</preferServerCiphers>
