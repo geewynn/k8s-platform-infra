@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - https://github.com/Altinity/clickhouse-operator/raw/master/deploy/operator/clickhouse-operator-install-bundle.yaml
+  - metrics.yaml
