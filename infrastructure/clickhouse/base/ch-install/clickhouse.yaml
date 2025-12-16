@@ -47,7 +47,7 @@ spec:
         valueFrom:
           secretKeyRef:
             name: clickhouse-ssl-certs
-            key: server.key
+            key: ca.crt
     clusters:
       - name: "cluster-ha"
         secure: "yes"
