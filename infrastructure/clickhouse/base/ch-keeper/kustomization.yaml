@@ -4,3 +4,4 @@ resources:
   - keeper.yaml
   # - keeper-config.yaml
   - service.yaml
+  - keeper_metrics.yaml

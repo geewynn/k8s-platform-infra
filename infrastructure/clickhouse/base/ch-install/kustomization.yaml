@@ -6,3 +6,4 @@ namespace: clickhouse
 resources:
   - ch-config.yaml
   - clickhouse.yaml
+  - ch_metrics.yaml

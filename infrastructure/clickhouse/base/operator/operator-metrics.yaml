@@ -1,10 +1,11 @@
 apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
+kind: PodMonitor
 metadata:
   name: clickhouse-operator-metrics
   namespace: clickhouse
   labels:
     app: clickhouse-operator
+    release: kube-prometheus-stack
 spec:
   selector:
     matchLabels:
