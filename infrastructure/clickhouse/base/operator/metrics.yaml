@@ -10,6 +10,9 @@ spec:
     matchLabels:
       app: clickhouse-operator
   endpoints:
-    - port: metrics
+    - port: ch-metrics      
+      interval: 30s
+      path: /metrics
+    - port: op-metrics
       interval: 30s
       path: /metrics
