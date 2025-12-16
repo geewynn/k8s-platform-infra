@@ -10,7 +10,7 @@ spec:
   selector:
     matchLabels:
       app: clickhouse-operator
-  endpoints:
+  podMetricsEndpoints:
     - port: ch-metrics      
       interval: 30s
       path: /metrics
