@@ -125,46 +125,25 @@ spec:
                   memory: "4Gi"
                   cpu: "1"
               
-              # volumeMounts:
-              #   - name: certs
-              #     mountPath: /tmp/certs
-              #     readOnly: true
-              #   - name: config
-              #     mountPath: /etc/clickhouse-server/config.d
-              #     readOnly: true
-              #   - name: cert-volume
-              #     mountPath: /etc/clickhouse-server/certs
+              # livenessProbe:
+              #   httpGet:
+              #     path: /ping
+              #     port: 8123
+              #     scheme: HTTP
+              #   initialDelaySeconds: 30
+              #   periodSeconds: 10
+              #   timeoutSeconds: 5
+              #   failureThreshold: 3
               
-              livenessProbe:
-                httpGet:
-                  path: /ping
-                  port: 8123
-                  scheme: HTTP
-                initialDelaySeconds: 30
-                periodSeconds: 10
-                timeoutSeconds: 5
-                failureThreshold: 3
-              
-              readinessProbe:
-                httpGet:
-                  path: /ping
-                  port: 8123
-                  scheme: HTTP
-                initialDelaySeconds: 10
-                periodSeconds: 5
-                timeoutSeconds: 3
-                failureThreshold: 3
-          
-          # volumes:
-          #   - name: certs
-          #     secret:
-          #       secretName: clickhouse-tls
-          #       defaultMode: 0640
-          #   - name: config
-          #     configMap:
-          #       name: clickhouse-config
-          #   - name: cert-volume
-          #     emptyDir: {}
+              # readinessProbe:
+              #   httpGet:
+              #     path: /ping
+              #     port: 8123
+              #     scheme: HTTP
+              #   initialDelaySeconds: 10
+              #   periodSeconds: 5
+              #   timeoutSeconds: 3
+              #   failureThreshold: 3
     
     volumeClaimTemplates:
       - name: "data-volume-template"
@@ -175,7 +154,7 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 20Gi
+              storage: 50Gi
       
       - name: "log-volume-template"
         reclaimPolicy: Retain

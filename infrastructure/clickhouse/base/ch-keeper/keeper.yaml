@@ -10,14 +10,6 @@ spec:
       app: zookeeper
   maxUnavailable: 1
 ---
-# Setup Zookeeper StatefulSet
-# Possible params:
-# 1. replicas
-# 2. memory
-# 3. cpu
-# 4. storage
-# 5. storageClassName
-# 6. user to run app
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -53,8 +45,6 @@ spec:
                     operator: In
                     values:
                       - zookeeper
-              # TODO think about multi-AZ EKS
-              # topologyKey: topology.kubernetes.io/zone
               topologyKey: "kubernetes.io/hostname"
       containers:
         - name: kubernetes-zookeeper
@@ -79,11 +69,6 @@ spec:
           env:
             - name: SERVERS
               value: "3"
-
-# See those links for proper startup settings:
-# https://github.com/kow3ns/kubernetes-zookeeper/blob/master/docker/scripts/start-zookeeper
-# https://clickhouse.yandex/docs/en/operations/tips/#zookeeper
-# https://github.com/ClickHouse/ClickHouse/issues/11781
           command:
             - bash
             - -x
@@ -223,4 +208,4 @@ spec:
         storageClassName: longhorn
         resources:
           requests:
-            storage: 25Gi
+            storage: 20Gi
