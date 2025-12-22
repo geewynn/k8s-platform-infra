@@ -54,8 +54,8 @@ spec:
         secure: "yes"
         insecure: "no"
         layout:
-          shardsCount: 1
-          replicasCount: 1
+          shardsCount: 2
+          replicasCount: 2
         
     zookeeper:
       nodes:
