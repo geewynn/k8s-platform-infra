@@ -205,7 +205,7 @@ spec:
       spec:
         accessModes:
           - ReadWriteOnce
-        storageClassName: longhorn
+        storageClassName: longhorn-clickhouse
         resources:
           requests:
-            storage: 20Gi
+            storage: 10Gi

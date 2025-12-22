@@ -7,9 +7,4 @@ resources:
   - ../../base/operator/
   - ../../base/ch-keeper/
   - ../../base/ch-install/
-
-# patches:
-#   - path: storage.yaml
-#     target:
-#       kind: ClickHouseInstallation
-#       name: clickhouse-ha
+  - storage.yaml

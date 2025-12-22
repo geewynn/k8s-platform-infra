@@ -29,7 +29,6 @@ spec:
               </openSSL>
           <listen_host>0.0.0.0</listen_host>
           <https_port>8443</https_port>
-          <http_port>8123</http_port>
           <tcp_port_secure>9440</tcp_port_secure>
           <interserver_https_port>9010</interserver_https_port>
           <interserver_http_port remove="1"/>
@@ -129,7 +128,7 @@ spec:
       - name: "data-volume-template"
         reclaimPolicy: Retain
         spec:
-          storageClassName: longhorn 
+          storageClassName: longhorn-clickhouse 
           accessModes:              
             - ReadWriteOnce
           resources:
@@ -139,7 +138,7 @@ spec:
       - name: "log-volume-template"
         reclaimPolicy: Retain
         spec:
-          storageClassName: longhorn 
+          storageClassName: longhorn-clickhouse 
           accessModes:              
             - ReadWriteOnce
           resources:
@@ -155,10 +154,10 @@ spec:
             cluster: cluster-ha
         spec:
           ports:
-            - name: http
-              port: 8123
-              targetPort: 8123
-              protocol: TCP
+            # - name: http
+            #   port: 8123
+            #   targetPort: 8123
+            #   protocol: TCP
             - name: https
               port: 8443
               targetPort: 8443
