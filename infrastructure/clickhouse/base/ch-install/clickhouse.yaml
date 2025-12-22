@@ -124,26 +124,6 @@ spec:
                 limits:
                   memory: "4Gi"
                   cpu: "1"
-              
-              # livenessProbe:
-              #   httpGet:
-              #     path: /ping
-              #     port: 8123
-              #     scheme: HTTP
-              #   initialDelaySeconds: 30
-              #   periodSeconds: 10
-              #   timeoutSeconds: 5
-              #   failureThreshold: 3
-              
-              # readinessProbe:
-              #   httpGet:
-              #     path: /ping
-              #     port: 8123
-              #     scheme: HTTP
-              #   initialDelaySeconds: 10
-              #   periodSeconds: 5
-              #   timeoutSeconds: 3
-              #   failureThreshold: 3
     
     volumeClaimTemplates:
       - name: "data-volume-template"
