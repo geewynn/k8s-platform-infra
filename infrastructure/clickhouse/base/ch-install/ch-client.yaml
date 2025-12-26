@@ -9,9 +9,9 @@ data:
         <openSSL>
             <client>
                 <loadDefaultCAFile>false</loadDefaultCAFile>
-                <certificateFile>/etc/clickhouse-server/secrets.d/server.crt/clickhouse-ssl-certs/server.crt</certificateFile>
-                <privateKeyFile>/etc/clickhouse-server/secrets.d/server.key/clickhouse-ssl-certs/server.key</privateKeyFile>
-                <caConfig>/etc/clickhouse-server/secrets.d/ca.crt/clickhouse-ssl-certs/ca.crt</caConfig>
+                <certificateFile>/etc/clickhouse-client/certs/server.crt</certificateFile>
+                <privateKeyFile>/etc/clickhouse-client/certs/server.key</privateKeyFile>
+                <caConfig>/etc/clickhouse-client/certs/ca.crt</caConfig>
                 <verificationMode>relaxed</verificationMode>
                 <invalidCertificateHandler>
                     <name>RejectCertificateHandler</name>
