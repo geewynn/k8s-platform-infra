@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "secure-ssl-client-config"
+  namespace: "clickhouse"
+data:
+  config.xml: |
+    <config>
+        <openSSL>
+            <client>
+                <loadDefaultCAFile>false</loadDefaultCAFile>
+                <certificateFile>/etc/clickhouse-server/secrets.d/server.crt/clickhouse-ssl-certs/server.crt</certificateFile>
+                <privateKeyFile>/etc/clickhouse-server/secrets.d/server.key/clickhouse-ssl-certs/server.key</privateKeyFile>
+                <caConfig>/etc/clickhouse-server/secrets.d/ca.crt/clickhouse-ssl-certs/ca.crt</caConfig>
+                <verificationMode>strict</verificationMode>
+                <invalidCertificateHandler>
+                    <name>RejectCertificateHandler</name>
+                </invalidCertificateHandler>
+            </client>
+        </openSSL>
+      <port>9440</port>
+      <secure>1</secure>
+    </config>
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "secure-ssl-client"
+  namespace: "clickhouse"
+spec:
+  containers:
+    - name: clickhouse-client
+      image: clickhouse/clickhouse-server:latest
+      command: [ "/bin/sh", "-c", "sleep 3600" ]
+      volumeMounts:
+        - name: config
+          mountPath: "/etc/clickhouse-client/"
+        - name: certs
+          mountPath: "/etc/clickhouse-client/certs/"
+  volumes:
+    - name: config
+      configMap:
+        name: secure-ssl-client-config
+        items:
+          - key: config.xml
+            path: config.xml
+    - name: certs
+      configMap:
+        name: clickhouse-cert
