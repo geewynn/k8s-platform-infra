@@ -45,5 +45,5 @@ spec:
           - key: config.xml
             path: config.xml
     - name: certs
-      configMap:
-        name: clickhouse-cert
+      secret:               
+        secretName: clickhouse-ssl-certs
