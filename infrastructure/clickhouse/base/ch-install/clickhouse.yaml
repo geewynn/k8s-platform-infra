@@ -80,6 +80,8 @@ spec:
         - "::/0"
       default/profile: "default"
       default/access_management: 1
+      default/show_named_collections: 1
+      default/show_named_collections_secrets: 1
     
     settings:
       compression/case/method: "zstd"
